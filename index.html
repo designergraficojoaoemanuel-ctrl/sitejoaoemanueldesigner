@@ -53,6 +53,13 @@
 
     .faq-item { border-bottom: 1px solid rgba(255,255,255,0.05); transition: all 0.3s; }
     .faq-item:hover { background: rgba(34,197,94,0.01); padding-left: 10px; border-color: rgba(34,197,94,0.2); }
+
+    @keyframes pulse-green {
+      0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
+      70% { box-shadow: 0 0 0 20px rgba(34, 197, 94, 0); }
+      100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+    }
+    .btn-pulse { animation: pulse-green 2s infinite; }
   </style>
 </head>
 <body class="bg-master text-white">
@@ -78,21 +85,28 @@
    </div>
   </nav>
 
-  <section id="about" class="relative min-h-screen flex items-center px-6 md:px-16 py-8 lg:py-24 overflow-hidden">
+  <section id="about" class="relative min-h-[85vh] flex items-center px-6 md:px-16 py-8 lg:py-16 overflow-hidden">
    <div class="max-w-7xl mx-auto flex flex-col-reverse lg:grid lg:grid-cols-2 gap-10 lg:gap-20 items-center relative z-10 w-full">
     
     <div class="fade-in d2 text-center lg:text-left w-full">
      <p class="text-green-500 text-xs font-black uppercase tracking-[0.5em] mb-6">Creative Designer</p>
      <h1 class="hero-title green-glow mb-8 uppercase">Criando o <br>futuro das <br>marcas.</h1>
      <p class="text-white/40 text-lg lg:text-xl max-w-lg mx-auto lg:mx-0 leading-relaxed mb-10">Focado em transformar conceitos em experiências visuais de alto impacto.</p>
-     <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-      <a href="https://wa.me/?text=Olá%20João!" target="_blank" class="px-12 py-6 bg-green-600 hover:bg-green-500 rounded-full font-black text-xs transition-all shadow-[0_15px_40px_rgba(22,163,74,0.3)] uppercase tracking-widest text-center">Solicitar Orçamento</a>
-      <a href="#projects" class="px-12 py-6 border border-white/10 hover:bg-white/5 rounded-full font-black text-xs transition-all uppercase tracking-widest text-center">Explorar Projetos</a>
+     
+     <div class="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start">
+      <a href="https://wa.me/?text=Olá%20João!" target="_blank" class="btn-pulse group flex items-center justify-center gap-3 px-10 py-6 bg-green-600 hover:bg-green-500 rounded-full font-black text-xs transition-all uppercase tracking-widest text-center transform hover:-translate-y-1">
+        <i data-lucide="message-circle" class="w-5 h-5 group-hover:rotate-12 transition-transform"></i>
+        Solicitar Orçamento
+      </a>
+      <a href="#projects" class="group flex items-center justify-center gap-3 px-10 py-6 border border-white/10 bg-white/5 hover:bg-white/10 rounded-full font-black text-xs transition-all uppercase tracking-widest text-center backdrop-blur-sm transform hover:-translate-y-1">
+        <i data-lucide="external-link" class="w-4 h-4 text-green-400"></i>
+        Explorar Projetos
+      </a>
      </div>
     </div>
     
     <div class="fade-in d3 flex justify-center w-full mb-4 lg:mb-0">
-     <div class="relative group w-full max-w-[290px] lg:max-w-[420px]">
+     <div class="relative group w-full max-w-[290px] lg:max-w-[400px]">
       <div class="absolute inset-0 bg-green-500 rounded-[80px] blur-[120px] opacity-20 group-hover:opacity-30 transition-opacity"></div>
       <div class="relative w-full aspect-[4/5] rounded-[40px] lg:rounded-[60px] overflow-hidden border border-white/10 bg-white/5 p-3 lg:p-4 backdrop-blur-xl rotate-1 group-hover:rotate-0 transition-transform">
        <img class="w-full h-full object-cover rounded-[30px] lg:rounded-[45px]" src="perfil.jpg" alt="João Emanuel">
@@ -103,16 +117,16 @@
    </div>
   </section>
 
-  <section id="services" class="px-6 py-24 lg:py-32 relative">
+  <section id="services" class="px-6 py-12 md:py-20 relative">
    <div class="max-w-7xl mx-auto">
-    <div class="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
+    <div class="flex flex-col md:flex-row justify-between items-end mb-12 md:mb-16 gap-8">
         <div class="max-w-2xl text-center md:text-left w-full">
-            <h2 class="text-4xl lg:text-5xl font-black mb-6 uppercase tracking-tighter green-glow">Soluções Visuais</h2>
+            <h2 class="text-4xl lg:text-5xl font-black mb-4 uppercase tracking-tighter green-glow">Soluções Visuais</h2>
             <p class="text-white/30 text-lg">Estratégia e criatividade unidas para criar autoridade digital.</p>
         </div>
         <div class="h-px flex-1 bg-white/10 mb-6 mx-10 hidden md:block"></div>
     </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
      <div class="card-premium p-8 lg:p-12 rounded-[40px] lg:rounded-[50px]">
       <i data-lucide="zap" class="text-green-400 mb-8" size="40"></i>
       <h3 class="text-2xl font-bold mb-6 uppercase tracking-tighter text-white">Identidade Visual</h3>
@@ -132,25 +146,25 @@
    </div>
   </section>
 
-  <section id="projects" class="px-6 py-24 lg:py-32">
+  <section id="projects" class="px-6 py-12 md:py-20">
    <div class="max-w-7xl mx-auto">
-    <h2 class="text-center text-4xl font-black mb-20 green-glow uppercase tracking-tighter">Trabalhos em Destaque</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-16">
+    <h2 class="text-center text-4xl font-black mb-12 md:mb-16 green-glow uppercase tracking-tighter">Trabalhos em Destaque</h2>
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
      <a href="https://www.behance.net/gallery/232619649/Chamego-Identidade-Visual" target="_blank" class="group block">
-      <div class="relative aspect-[16/10] rounded-[40px] lg:rounded-[60px] overflow-hidden border border-white/5 mb-8 bg-white/5">
+      <div class="relative aspect-[16/10] rounded-[40px] lg:rounded-[60px] overflow-hidden border border-white/5 mb-6 bg-white/5">
         <img src="projeto2.jpg" class="w-full h-full object-cover grayscale-[50%] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" alt="Projeto 1">
       </div>
       <div class="px-4">
-       <span class="text-green-400 text-xs font-black uppercase tracking-[0.4em] mb-4 block">Branding / Identidade Visual</span>
+       <span class="text-green-400 text-xs font-black uppercase tracking-[0.4em] mb-3 block">Branding / Identidade Visual</span>
        <h3 class="text-2xl lg:text-3xl font-black uppercase group-hover:text-green-400 transition-colors">Chamego - Branding</h3>
       </div>
      </a>
      <a href="https://www.behance.net/gallery/229654613/Posts-para-Social-Media-Clinica-Mdica" target="_blank" class="group block">
-      <div class="relative aspect-[16/10] rounded-[40px] lg:rounded-[60px] overflow-hidden border border-white/5 mb-8 bg-white/5">
+      <div class="relative aspect-[16/10] rounded-[40px] lg:rounded-[60px] overflow-hidden border border-white/5 mb-6 bg-white/5">
         <img src="projeto1.jpg" class="w-full h-full object-cover grayscale-[50%] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" alt="Projeto 2">
       </div>
       <div class="px-4">
-       <span class="text-green-400 text-xs font-black uppercase tracking-[0.4em] mb-4 block">Social Media / Posts</span>
+       <span class="text-green-400 text-xs font-black uppercase tracking-[0.4em] mb-3 block">Social Media / Posts</span>
        <h3 class="text-2xl lg:text-3xl font-black uppercase group-hover:text-green-400 transition-colors">Clínica Médica - Posts</h3>
       </div>
      </a>
@@ -158,9 +172,9 @@
    </div>
   </section>
 
-  <section class="px-6 py-24 lg:py-32 relative">
+  <section class="px-6 py-12 md:py-20 relative">
     <div class="max-w-4xl mx-auto">
-        <h2 class="text-3xl font-black mb-16 uppercase tracking-tighter green-glow text-center">Perguntas Frequentes</h2>
+        <h2 class="text-3xl font-black mb-10 md:mb-12 uppercase tracking-tighter green-glow text-center">Perguntas Frequentes</h2>
         <div class="space-y-4">
             <div class="faq-item p-6">
                 <h5 class="font-bold text-lg mb-2 uppercase tracking-tight text-white">Qual o prazo de entrega?</h5>
@@ -178,10 +192,10 @@
     </div>
   </section>
 
-  <section id="contact" class="px-6 md:px-16 py-16 relative">
+  <section id="contact" class="px-6 md:px-16 py-12 md:py-16 relative">
     <div class="glow-sphere bottom-0 left-[50%] -translate-x-1/2 w-[300px] md:w-[1200px] h-[300px] md:h-[600px] bg-green-600 opacity-15 blur-[150px]"></div>
     
-    <div class="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-8 relative z-10">
+    <div class="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 relative z-10">
         <a href="https://www.instagram.com/eujoaodsgn/" target="_blank" class="group glass rounded-[30px] lg:rounded-[40px] p-8 lg:p-10 flex items-center justify-between transition-all hover:border-green-500/50 hover:bg-green-600/5">
             <div class="text-left">
                 <span class="text-green-400 text-xs font-black uppercase tracking-widest">Me siga</span>
@@ -199,7 +213,7 @@
     </div>
   </section>
 
-  <footer class="py-12 px-6 border-t border-white/20 bg-black/40 backdrop-blur-md text-center relative z-10 w-full">
+  <footer class="py-10 px-6 border-t border-white/20 bg-black/40 backdrop-blur-md text-center relative z-10 w-full">
    <p class="text-[10px] md:text-xs text-white/50 uppercase tracking-[0.4em] md:tracking-[0.8em] font-bold mx-auto max-w-full block break-words">
      João Emanuel • Designer Gráfico © 2026
    </p>
