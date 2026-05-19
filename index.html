@@ -16,7 +16,6 @@
     body { font-family: 'DM Sans', sans-serif; scroll-behavior: smooth; background-color: #000; }
     .hero-title { font-size: clamp(2.5rem, 8vw, 5rem); line-height: 1; font-weight: 900; letter-spacing: -0.04em; }
     
-    /* Correção da animação que quebrava o layout lateral no celular */
     .fade-in { animation: fadeInSutil 1s ease-out forwards; opacity: 0; }
     @keyframes fadeInSutil { from { opacity: 0; } to { opacity: 1; } }
     .d2 { animation-delay: .2s } .d3 { animation-delay: .4s }
@@ -58,7 +57,6 @@
 </head>
 <body class="bg-master text-white">
   
-  <!-- Luzes de fundo calibradas para conter vazamento -->
   <div class="glow-sphere top-0 right-0 w-[280px] md:w-[800px] h-[280px] md:h-[800px] bg-green-500 opacity-10"></div>
   <div class="glow-sphere top-[40%] left-0 w-[280px] md:w-[600px] h-[280px] md:h-[600px] bg-green-700 opacity-10"></div>
 
@@ -69,7 +67,6 @@
    </div>
   </div>
 
-  <!-- Menu Consertado: Links visíveis no celular com cor destacada e boa distribuição -->
   <nav class="sticky top-0 z-50 px-4 py-4 glass w-full">
    <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
     <span class="font-black text-xl md:text-2xl tracking-tighter green-glow">JOÃO EMANUEL</span>
@@ -82,11 +79,9 @@
    </div>
   </nav>
 
-  <!-- Banner com foto no topo no Mobile -->
   <section id="about" class="relative min-h-screen flex items-center px-6 md:px-16 py-8 lg:py-24 overflow-hidden">
    <div class="max-w-7xl mx-auto flex flex-col-reverse lg:grid lg:grid-cols-2 gap-10 lg:gap-20 items-center relative z-10 w-full">
     
-    <!-- Textos -->
     <div class="fade-in d2 text-center lg:text-left w-full">
      <p class="text-green-500 text-xs font-black uppercase tracking-[0.5em] mb-6">Creative Designer</p>
      <h1 class="hero-title green-glow mb-8 uppercase">Criando o <br>futuro das <br>marcas.</h1>
@@ -97,7 +92,6 @@
      </div>
     </div>
     
-    <!-- Foto de Perfil -->
     <div class="fade-in d3 flex justify-center w-full mb-4 lg:mb-0">
      <div class="relative group w-full max-w-[290px] lg:max-w-[420px]">
       <div class="absolute inset-0 bg-green-500 rounded-[80px] blur-[120px] opacity-20 group-hover:opacity-30 transition-opacity"></div>
@@ -110,7 +104,6 @@
    </div>
   </section>
 
-  <!-- Seção Serviços -->
   <section id="services" class="px-6 py-24 lg:py-32 relative">
    <div class="max-w-7xl mx-auto">
     <div class="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
@@ -140,7 +133,6 @@
    </div>
   </section>
 
-  <!-- Seção Trabalhos -->
   <section id="projects" class="px-6 py-24 lg:py-32">
    <div class="max-w-7xl mx-auto">
     <h2 class="text-center text-4xl font-black mb-20 green-glow uppercase tracking-tighter">Trabalhos em Destaque</h2>
@@ -167,7 +159,6 @@
    </div>
   </section>
 
-  <!-- Seção FAQ -->
   <section class="px-6 py-24 lg:py-32 relative">
     <div class="max-w-4xl mx-auto">
         <h2 class="text-3xl font-black mb-16 uppercase tracking-tighter green-glow text-center">Perguntas Frequentes</h2>
@@ -188,7 +179,6 @@
     </div>
   </section>
 
-  <!-- Seção Contato Dinâmico (Sem frases intermediárias, direto para os botões) -->
   <section id="contact" class="px-6 md:px-16 py-16 relative">
     <div class="glow-sphere bottom-0 left-[50%] -translate-x-1/2 w-[300px] md:w-[1200px] h-[300px] md:h-[600px] bg-green-600 opacity-15 blur-[150px]"></div>
     
@@ -210,9 +200,11 @@
     </div>
   </section>
 
-  <!-- Rodapé Premium com Linha Divisória Branca Calibrada e Bem Visível -->
-  <footer class="py-12 border-t border-white/20 bg-black/40 backdrop-blur-md text-center relative z-10 w-full">
-   <p class="text-xs text-white/50 uppercase tracking-[0.8em] font-bold">João Emanuel • Designer Gráfico © 2026</p>
+  <!-- Rodapé com padding lateral (px-6) e espaçamento de letras corrigido para celular -->
+  <footer class="py-12 px-6 border-t border-white/20 bg-black/40 backdrop-blur-md text-center relative z-10 w-full">
+   <p class="text-[10px] md:text-xs text-white/50 uppercase tracking-[0.4em] md:tracking-[0.8em] font-bold mx-auto max-w-full block break-words">
+     João Emanuel • Designer Gráfico © 2026
+   </p>
   </footer>
 
   <script>lucide.createIcons();</script>
