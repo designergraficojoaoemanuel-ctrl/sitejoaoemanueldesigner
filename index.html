@@ -1,6 +1,5 @@
 <!doctype html>
-<!-- Adicionado overflow-x-hidden aqui na tag html para garantir travamento total no mobile -->
-<html lang="pt-BR" class="overflow-x-hidden">
+<html lang="pt-BR" style="overflow-x: hidden; max-width: 100%;">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
@@ -9,12 +8,18 @@
   <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
   <style>
+    html, body { 
+      overflow-x: hidden !important; 
+      max-width: 100% !important; 
+      position: relative;
+    }
     body { font-family: 'DM Sans', sans-serif; scroll-behavior: smooth; background-color: #000; }
     .hero-title { font-size: clamp(2.5rem, 8vw, 5rem); line-height: 1; font-weight: 900; letter-spacing: -0.04em; }
     
-    .fade-in { animation: fadeUp 1s ease-out forwards; opacity: 0; }
-    @keyframes fadeUp { from { opacity:0; transform:translateY(40px); } to { opacity:1; transform:translateY(0); } }
-    .d1{animation-delay:.1s} .d2{animation-delay:.3s} .d3{animation-delay:.5s}
+    /* Correção da animação que quebrava o layout lateral no celular */
+    .fade-in { animation: fadeInSutil 1s ease-out forwards; opacity: 0; }
+    @keyframes fadeInSutil { from { opacity: 0; } to { opacity: 1; } }
+    .d2 { animation-delay: .2s } .d3 { animation-delay: .4s }
 
     .glass { background: rgba(255,255,255,0.02); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.05); }
     .green-glow { text-shadow: 0 0 50px rgba(34,197,94,0.4); }
@@ -44,22 +49,18 @@
       border-radius: 100%;
       pointer-events: none;
       opacity: 0.1;
+      max-width: 100%;
     }
 
     .faq-item { border-bottom: 1px solid rgba(255,255,255,0.05); transition: all 0.3s; }
     .faq-item:hover { background: rgba(34,197,94,0.01); padding-left: 10px; border-color: rgba(34,197,94,0.2); }
-
-    .stroke-text {
-        -webkit-text-stroke: 1px rgba(255,255,255,0.05);
-        color: transparent;
-    }
   </style>
 </head>
-<body class="bg-master text-white overflow-x-hidden position-relative">
+<body class="bg-master text-white">
   
-  <!-- Elementos de luz com posicionamento responsivo travado para não vazar da tela -->
-  <div class="glow-sphere top-0 right-0 w-[300px] md:w-[800px] h-[300px] md:h-[800px] bg-green-500 opacity-15"></div>
-  <div class="glow-sphere top-[40%] left-0 w-[300px] md:w-[600px] h-[300px] md:h-[600px] bg-green-700 opacity-15"></div>
+  <!-- Luzes de fundo calibradas para conter vazamento -->
+  <div class="glow-sphere top-0 right-0 w-[280px] md:w-[800px] h-[280px] md:h-[800px] bg-green-500 opacity-10"></div>
+  <div class="glow-sphere top-[40%] left-0 w-[280px] md:w-[600px] h-[280px] md:h-[600px] bg-green-700 opacity-10"></div>
 
   <div class="marquee py-4 text-white/10 text-[9px] uppercase tracking-[0.6em] font-bold">
    <div class="marquee-inner">
@@ -68,38 +69,40 @@
    </div>
   </div>
 
-  <nav class="sticky top-0 z-50 px-6 py-4 glass">
-   <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
-    <span class="font-black text-2xl tracking-tighter green-glow">JOÃO EMANUEL</span>
-    <div class="flex flex-wrap justify-center gap-6 md:gap-10 text-[10px] uppercase tracking-[0.3em] text-white/40 font-bold">
-     <a href="#about" class="hover:text-green-400 transition-all">Sobre</a>
-     <a href="#services" class="hover:text-green-400 transition-all">Serviços</a>
-     <a href="#projects" class="hover:text-green-400 transition-all">Projetos</a>
-     <a href="#contact" class="hover:text-green-400 transition-all">Contato</a>
+  <!-- Menu Consertado: Links visíveis no celular com cor destacada e boa distribuição -->
+  <nav class="sticky top-0 z-50 px-4 py-4 glass w-full">
+   <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-3">
+    <span class="font-black text-xl md:text-2xl tracking-tighter green-glow">JOÃO EMANUEL</span>
+    <div class="flex flex-row flex-wrap justify-center gap-5 md:gap-10 text-[10px] uppercase tracking-[0.25em] text-white/70 md:text-white/40 font-bold">
+     <a href="#about" class="hover:text-green-400 transition-all py-1">Sobre</a>
+     <a href="#services" class="hover:text-green-400 transition-all py-1">Serviços</a>
+     <a href="#projects" class="hover:text-green-400 transition-all py-1">Projetos</a>
+     <a href="#contact" class="hover:text-green-400 transition-all py-1">Contato</a>
     </div>
    </div>
   </nav>
 
-  <section id="about" class="relative min-h-screen flex items-center px-6 md:px-16 py-12 lg:py-24 overflow-hidden">
-   <div class="max-w-7xl mx-auto flex flex-col-reverse lg:grid lg:grid-cols-2 gap-12 lg:gap-20 items-center relative z-10 w-full">
+  <!-- Banner com foto no topo no Mobile -->
+  <section id="about" class="relative min-h-screen flex items-center px-6 md:px-16 py-8 lg:py-24 overflow-hidden">
+   <div class="max-w-7xl mx-auto flex flex-col-reverse lg:grid lg:grid-cols-2 gap-10 lg:gap-20 items-center relative z-10 w-full">
     
-    <!-- Textos e Botões -->
+    <!-- Textos -->
     <div class="fade-in d2 text-center lg:text-left w-full">
-     <p class="text-green-500 text-xs font-black uppercase tracking-[0.5em] mb-6 lg:mb-8">Creative Designer</p>
-     <h1 class="hero-title green-glow mb-8 lg:mb-10 uppercase">Criando o <br>futuro das <br>marcas.</h1>
-     <p class="text-white/40 text-lg lg:text-xl max-w-lg mx-auto lg:mx-0 leading-relaxed mb-10 lg:mb-12">Focado em transformar conceitos em experiências visuais de alto impacto.</p>
+     <p class="text-green-500 text-xs font-black uppercase tracking-[0.5em] mb-6">Creative Designer</p>
+     <h1 class="hero-title green-glow mb-8 uppercase">Criando o <br>futuro das <br>marcas.</h1>
+     <p class="text-white/40 text-lg lg:text-xl max-w-lg mx-auto lg:mx-0 leading-relaxed mb-10">Focado em transformar conceitos em experiências visuais de alto impacto.</p>
      <div class="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
       <a href="https://wa.me/?text=Olá%20João!" target="_blank" class="px-12 py-6 bg-green-600 hover:bg-green-500 rounded-full font-black text-xs transition-all shadow-[0_15px_40px_rgba(22,163,74,0.3)] uppercase tracking-widest text-center">Solicitar Orçamento</a>
       <a href="#projects" class="px-12 py-6 border border-white/10 hover:bg-white/5 rounded-full font-black text-xs transition-all uppercase tracking-widest text-center">Explorar Projetos</a>
      </div>
     </div>
     
-    <!-- Foto (No topo no mobile) -->
-    <div class="fade-in d3 flex justify-center w-full mb-6 lg:mb-0">
-     <div class="relative group w-full max-w-[320px] lg:max-w-[420px]">
+    <!-- Foto de Perfil -->
+    <div class="fade-in d3 flex justify-center w-full mb-4 lg:mb-0">
+     <div class="relative group w-full max-w-[290px] lg:max-w-[420px]">
       <div class="absolute inset-0 bg-green-500 rounded-[80px] blur-[120px] opacity-20 group-hover:opacity-30 transition-opacity"></div>
-      <div class="relative w-full aspect-[4/5] rounded-[45px] lg:rounded-[60px] overflow-hidden border border-white/10 bg-white/5 p-3 lg:p-4 backdrop-blur-xl rotate-1 group-hover:rotate-0 transition-transform">
-       <img class="w-full h-full object-cover rounded-[35px] lg:rounded-[45px]" src="perfil.jpg" alt="João Emanuel">
+      <div class="relative w-full aspect-[4/5] rounded-[40px] lg:rounded-[60px] overflow-hidden border border-white/10 bg-white/5 p-3 lg:p-4 backdrop-blur-xl rotate-1 group-hover:rotate-0 transition-transform">
+       <img class="w-full h-full object-cover rounded-[30px] lg:rounded-[45px]" src="perfil.jpg" alt="João Emanuel">
       </div>
      </div>
     </div>
@@ -107,6 +110,7 @@
    </div>
   </section>
 
+  <!-- Seção Serviços -->
   <section id="services" class="px-6 py-24 lg:py-32 relative">
    <div class="max-w-7xl mx-auto">
     <div class="flex flex-col md:flex-row justify-between items-end mb-24 gap-8">
@@ -118,17 +122,17 @@
     </div>
     <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
      <div class="card-premium p-8 lg:p-12 rounded-[40px] lg:rounded-[50px]">
-      <i data-lucide="zap" class="text-green-400 mb-8 lg:mb-10" size="40"></i>
+      <i data-lucide="zap" class="text-green-400 mb-8" size="40"></i>
       <h3 class="text-2xl font-bold mb-6 uppercase tracking-tighter text-white">Identidade Visual</h3>
       <p class="text-white/40 leading-relaxed">Desenvolvimento de marcas autênticas que garantem unidade em todos os pontos de contato.</p>
      </div>
      <div class="card-premium p-8 lg:p-12 rounded-[40px] lg:rounded-[50px]">
-      <i data-lucide="layout-grid" class="text-green-400 mb-8 lg:mb-10" size="40"></i>
+      <i data-lucide="layout-grid" class="text-green-400 mb-8" size="40"></i>
       <h3 class="text-2xl font-bold mb-6 uppercase tracking-tighter text-white">Social Media</h3>
       <p class="text-white/40 leading-relaxed">Criação de conteúdo visual estratégico que posiciona seu perfil como uma referência estética.</p>
      </div>
      <div class="card-premium p-8 lg:p-12 rounded-[40px] lg:rounded-[50px]">
-      <i data-lucide="crown" class="text-green-400 mb-8 lg:mb-10" size="40"></i>
+      <i data-lucide="crown" class="text-green-400 mb-8" size="40"></i>
       <h3 class="text-2xl font-bold mb-6 uppercase tracking-tighter text-white">Branding</h3>
       <p class="text-white/40 leading-relaxed">Consultoria visual completa para transformar a forma como as pessoas percebem seu valor.</p>
      </div>
@@ -136,6 +140,7 @@
    </div>
   </section>
 
+  <!-- Seção Trabalhos -->
   <section id="projects" class="px-6 py-24 lg:py-32">
    <div class="max-w-7xl mx-auto">
     <h2 class="text-center text-4xl font-black mb-20 green-glow uppercase tracking-tighter">Trabalhos em Destaque</h2>
@@ -162,6 +167,7 @@
    </div>
   </section>
 
+  <!-- Seção FAQ -->
   <section class="px-6 py-24 lg:py-32 relative">
     <div class="max-w-4xl mx-auto">
         <h2 class="text-3xl font-black mb-16 uppercase tracking-tighter green-glow text-center">Perguntas Frequentes</h2>
@@ -182,13 +188,9 @@
     </div>
   </section>
 
-  <section class="px-6 py-24 text-center relative">
-    <div class="glow-sphere left-[50%] -translate-x-1/2 w-[300px] md:w-[700px] h-[150px] md:h-[350px] bg-green-950 opacity-30 blur-[120px]"></div>
-    <h3 class="text-white italic text-3xl md:text-5xl font-black uppercase tracking-tighter relative z-10 max-w-4xl mx-auto leading-tight">"Design é a embaixada silenciosa da sua marca."</h3>
-  </section>
-
-  <section id="contact" class="px-6 md:px-16 pb-24 pt-4 relative">
-    <div class="glow-sphere bottom-[-10%] left-[50%] -translate-x-1/2 w-[300px] md:w-[1200px] h-[300px] md:h-[600px] bg-green-600 opacity-20 blur-[150px]"></div>
+  <!-- Seção Contato Dinâmico (Sem frases intermediárias, direto para os botões) -->
+  <section id="contact" class="px-6 md:px-16 py-16 relative">
+    <div class="glow-sphere bottom-0 left-[50%] -translate-x-1/2 w-[300px] md:w-[1200px] h-[300px] md:h-[600px] bg-green-600 opacity-15 blur-[150px]"></div>
     
     <div class="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-8 relative z-10">
         <a href="https://www.instagram.com/eujoaodsgn/" target="_blank" class="group glass rounded-[30px] lg:rounded-[40px] p-8 lg:p-10 flex items-center justify-between transition-all hover:border-green-500/50 hover:bg-green-600/5">
@@ -208,7 +210,8 @@
     </div>
   </section>
 
-  <footer class="py-12 border-t border-white/[0.03] bg-black/20 backdrop-blur-sm text-center relative z-10">
+  <!-- Rodapé Premium com Linha Divisória Branca Calibrada e Bem Visível -->
+  <footer class="py-12 border-t border-white/20 bg-black/40 backdrop-blur-md text-center relative z-10 w-full">
    <p class="text-xs text-white/50 uppercase tracking-[0.8em] font-bold">João Emanuel • Designer Gráfico © 2026</p>
   </footer>
 
