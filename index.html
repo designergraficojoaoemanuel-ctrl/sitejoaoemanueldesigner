@@ -1,224 +1,664 @@
 <!doctype html>
-<html lang="pt-BR" style="overflow-x: hidden; max-width: 100%;">
+<html lang="pt-BR">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-  <title>João Emanuel - Portfolio</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Portfólio de João Emanuel, designer gráfico especializado em identidade visual, branding e artes para social media.">
+  <meta name="theme-color" content="#020403">
+  <link rel="icon" type="image/png" href="j.png">
+  <title>João Emanuel — Designer Gráfico</title>
+
   <script src="https://cdn.tailwindcss.com/3.4.17"></script>
-  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;900&amp;display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700;900&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/lucide@0.263.0/dist/umd/lucide.min.js"></script>
+
   <style>
-    html, body { 
-      overflow-x: hidden !important; 
-      max-width: 100% !important; 
-      position: relative;
-    }
-    body { font-family: 'DM Sans', sans-serif; scroll-behavior: smooth; background-color: #000; }
-    .hero-title { font-size: clamp(2.5rem, 8vw, 5rem); line-height: 1; font-weight: 900; letter-spacing: -0.04em; }
-    
-    .fade-in { animation: fadeInSutil 1s ease-out forwards; opacity: 0; }
-    @keyframes fadeInSutil { from { opacity: 0; } to { opacity: 1; } }
-    .d2 { animation-delay: .2s } .d3 { animation-delay: .4s }
-
-    .glass { background: rgba(255,255,255,0.02); backdrop-filter: blur(15px); border-bottom: 1px solid rgba(255,255,255,0.05); }
-    .green-glow { text-shadow: 0 0 50px rgba(34,197,94,0.4); }
-    
-    .bg-master {
-        background: linear-gradient(180deg, #000 0%, #051a10 25%, #000 50%, #082115 75%, #000 100%);
+    :root {
+      --green: #22c55e;
+      --green-soft: rgba(34, 197, 94, .14);
+      --white-soft: rgba(255, 255, 255, .08);
+      --text-muted: rgba(255, 255, 255, .55);
+      --bg: #020403;
     }
 
-    .card-premium {
-      background: rgba(255,255,255,0.01);
-      border: 1px solid rgba(255,255,255,0.03);
-      transition: all 0.5s ease;
-    }
-    .card-premium:hover {
-      border-color: rgba(34,197,94,0.2);
-      background: rgba(34,197,94,0.01);
-      transform: translateY(-5px);
+    * { box-sizing: border-box; }
+
+    html {
+      scroll-behavior: smooth;
+      overflow-x: hidden;
     }
 
-    .marquee { overflow: hidden; white-space: nowrap; border-bottom: 1px solid rgba(255,255,255,0.03); background: rgba(0,0,0,0.3); }
-    .marquee-inner { display: inline-block; animation: scroll 40s linear infinite; }
-    @keyframes scroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+    body {
+      margin: 0;
+      overflow-x: hidden;
+      font-family: 'DM Sans', sans-serif;
+      color: #fff;
+      background:
+        radial-gradient(circle at 20% 0%, rgba(34,197,94,.18), transparent 34rem),
+        radial-gradient(circle at 85% 28%, rgba(22,163,74,.12), transparent 28rem),
+        linear-gradient(180deg, #020403 0%, #041109 45%, #020403 100%);
+    }
 
-    .glow-sphere {
-      position: absolute;
-      filter: blur(120px);
-      border-radius: 100%;
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
       pointer-events: none;
-      opacity: 0.1;
-      max-width: 100%;
+      z-index: -1;
+      background-image:
+        linear-gradient(rgba(255,255,255,.025) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255,255,255,.025) 1px, transparent 1px);
+      background-size: 72px 72px;
+      mask-image: linear-gradient(to bottom, #000, transparent 82%);
     }
 
-    .faq-item { border-bottom: 1px solid rgba(255,255,255,0.05); transition: all 0.3s; }
-    .faq-item:hover { background: rgba(34,197,94,0.01); padding-left: 10px; border-color: rgba(34,197,94,0.2); }
-
-    @keyframes pulse-green {
-      0% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.4); }
-      70% { box-shadow: 0 0 0 20px rgba(34, 197, 94, 0); }
-      100% { box-shadow: 0 0 0 0 rgba(34, 197, 94, 0); }
+    .container-site {
+      width: min(1180px, calc(100% - 32px));
+      margin-inline: auto;
     }
-    .btn-pulse { animation: pulse-green 2s infinite; }
-  </style>
-</head>
-<body class="bg-master text-white">
+
+    .glass {
+      background: rgba(2, 4, 3, .68);
+      border: 1px solid rgba(255,255,255,.08);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 24px 80px rgba(0,0,0,.28);
+    }
+
+    .eyebrow {
+      display: inline-flex;
+      align-items: center;
+      gap: .55rem;
+      color: var(--green);
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .32em;
+      text-transform: uppercase;
+    }
+
+    .eyebrow::before {
+      content: "";
+      width: 9px;
+      height: 9px;
+      border-radius: 999px;
+      background: var(--green);
+      box-shadow: 0 0 24px rgba(34,197,94,.9);
+    }
+
+    .hero-title {
+      font-size: clamp(2.8rem, 6vw, 5.8rem);
+      line-height: .92;
+      letter-spacing: -.075em;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .text-gradient {
+      background: linear-gradient(135deg, #fff 0%, #b6ffd1 42%, #22c55e 100%);
+      -webkit-background-clip: text;
+      background-clip: text;
+      color: transparent;
+    }
+
+    .btn-main,
+    .btn-second {
+      min-height: 58px;
+      border-radius: 999px;
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: .75rem;
+      font-size: .74rem;
+      font-weight: 900;
+      letter-spacing: .16em;
+      text-transform: uppercase;
+      transition: .28s ease;
+      will-change: transform;
+    }
+
+    .btn-main {
+      color: #031007;
+      background: linear-gradient(135deg, #d6ffe2, #22c55e 58%, #16a34a);
+      box-shadow: 0 18px 70px rgba(34,197,94,.25);
+    }
+
+    .btn-second {
+      color: #fff;
+      background: rgba(255,255,255,.045);
+      border: 1px solid rgba(255,255,255,.1);
+    }
+
+    .btn-main:hover,
+    .btn-second:hover,
+    .project-card:hover,
+    .service-card:hover,
+    .contact-card:hover {
+      transform: translateY(-4px);
+    }
+
+    .section-pad { padding-block: clamp(64px, 9vw, 116px); }
+
+    .section-title {
+      font-size: clamp(2.4rem, 5vw, 5rem);
+      line-height: .9;
+      letter-spacing: -.06em;
+      font-weight: 900;
+      text-transform: uppercase;
+    }
+
+    .marquee {
+      overflow: hidden;
+      border-bottom: 1px solid rgba(255,255,255,.07);
+      border-top: 1px solid rgba(255,255,255,.05);
+      background: rgba(0,0,0,.28);
+    }
+
+    .marquee-track {
+      display: flex;
+      width: max-content;
+      animation: marquee 32s linear infinite;
+    }
+
+    .marquee span {
+      padding: 1rem .8rem;
+      color: rgba(255,255,255,.18);
+      font-size: .72rem;
+      font-weight: 900;
+      letter-spacing: .36em;
+      text-transform: uppercase;
+      white-space: nowrap;
+    }
+
+    @keyframes marquee {
+      to { transform: translateX(-50%); }
+    }
+
+    .profile-card {
+      position: relative;
+      isolation: isolate;
+    }
+
+    .profile-card::before {
+      content: "";
+      position: absolute;
+      inset: -22px;
+      z-index: -1;
+      border-radius: 56px;
+      background: radial-gradient(circle, rgba(34,197,94,.34), transparent 68%);
+      filter: blur(42px);
+      opacity: .74;
+    }
+
+    .service-card,
+    .project-card,
+    .contact-card {
+      border: 1px solid rgba(255,255,255,.08);
+      background: linear-gradient(180deg, rgba(255,255,255,.055), rgba(255,255,255,.018));
+      transition: .35s ease;
+    }
+
+    .service-card:hover,
+    .project-card:hover,
+    .contact-card:hover {
+      border-color: rgba(34,197,94,.38);
+      background: linear-gradient(180deg, rgba(34,197,94,.095), rgba(255,255,255,.018));
+      box-shadow: 0 22px 70px rgba(0,0,0,.28);
+    }
+
+    .project-img {
+      transition: transform .8s ease, filter .8s ease;
+      filter: saturate(.75) contrast(1.04);
+    }
+
+    .project-card:hover .project-img {
+      transform: scale(1.06);
+      filter: saturate(1.05) contrast(1.06);
+    }
+
+    .reveal {
+      opacity: 0;
+      transform: translateY(24px);
+      animation: reveal .75s ease forwards;
+    }
+
+    .delay-1 { animation-delay: .12s; }
+    .delay-2 { animation-delay: .24s; }
+    .delay-3 { animation-delay: .36s; }
+
+    @keyframes reveal {
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 768px) {
+      .container-site { width: min(100% - 24px, 1180px); }
+      .hero-title { font-size: clamp(3.05rem, 18vw, 4.85rem); }
+      .btn-main, .btn-second { width: 100%; }
+      .section-pad { padding-block: 56px; }
+      .nav-links { gap: .9rem; letter-spacing: .14em; }
+    }
   
-  <div class="glow-sphere top-0 right-0 w-[280px] md:w-[800px] h-[280px] md:h-[800px] bg-green-500 opacity-10"></div>
-  <div class="glow-sphere top-[40%] left-0 w-[280px] md:w-[600px] h-[280px] md:h-[600px] bg-green-700 opacity-10"></div>
+    .hero-status-card{
+      position:absolute;
+      left:50%;
+      bottom:18px;
+      transform:translateX(-50%);
+      width:calc(100% - 28px);
+      background:linear-gradient(180deg, rgba(0,0,0,.15), rgba(0,0,0,.82));
+      backdrop-filter:blur(18px);
+      border:1px solid rgba(255,255,255,.06);
+      border-radius:24px;
+      padding:18px 20px;
+      z-index:20;
+    }
 
-  <div class="marquee py-4 text-white/10 text-[9px] uppercase tracking-[0.6em] font-bold">
-   <div class="marquee-inner">
-    <span>Branding • Identidade Visual • Social Media • Design Estratégico •&nbsp;</span>
-    <span>Branding • Identidade Visual • Social Media • Design Estratégico •&nbsp;</span>
-   </div>
+    .hero-status-title{
+      font-size:clamp(1rem,2vw,1.6rem);
+      line-height:1;
+      font-weight:900;
+      text-transform:uppercase;
+      letter-spacing:-0.04em;
+      color:#fff;
+    }
+
+    .hero-status-dot{
+      width:10px;
+      height:10px;
+      border-radius:999px;
+      background:#22c55e;
+      box-shadow:0 0 18px rgba(34,197,94,.8);
+    }
+
+    .hero-mini-cards{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:18px;
+      margin-top:36px;
+    }
+
+    .hero-mini-card{
+      position:relative;
+      overflow:hidden;
+      padding:28px;
+      border-radius:28px;
+      background:linear-gradient(180deg, rgba(255,255,255,.02), rgba(255,255,255,.01));
+      border:1px solid rgba(255,255,255,.06);
+      transition:.35s ease;
+      backdrop-filter:blur(12px);
+    }
+
+    .hero-mini-card:hover{
+      transform:translateY(-6px);
+      border-color:rgba(34,197,94,.35);
+      background:rgba(34,197,94,.05);
+      box-shadow:0 20px 60px rgba(0,0,0,.45);
+    }
+
+    .hero-mini-card::before{
+      content:'';
+      position:absolute;
+      inset:0;
+      background:radial-gradient(circle at top left, rgba(34,197,94,.16), transparent 60%);
+      opacity:.8;
+      pointer-events:none;
+    }
+
+    .hero-mini-title{
+      font-size:clamp(1.8rem,4vw,3rem);
+      font-weight:900;
+      letter-spacing:-0.06em;
+      color:#fff;
+      line-height:1;
+      margin-bottom:10px;
+    }
+
+    .hero-mini-sub{
+      color:rgba(255,255,255,.42);
+      font-size:.75rem;
+      font-weight:700;
+      text-transform:uppercase;
+      letter-spacing:.18em;
+    }
+
+    @media(max-width:768px){
+      .hero-mini-cards{
+        grid-template-columns:1fr;
+      }
+
+      .hero-status-card{
+        width:calc(100% - 18px);
+        padding:14px 16px;
+      }
+    }
+
+    .topbar,
+    .site-header,
+    .header-bar{
+      position:fixed !important;
+      top:0 !important;
+      left:0 !important;
+      right:0 !important;
+      z-index:999 !important;
+      background:transparent !important;
+      border-bottom:0 !important;
+      backdrop-filter:none !important;
+      -webkit-backdrop-filter:none !important;
+      pointer-events:none;
+    }
+
+    .topbar > *,
+    .site-header > *,
+    .header-bar > *,
+    header.fixed > *,
+    nav.fixed > *{
+      pointer-events:auto;
+    }
+
+    header.fixed,
+    nav.fixed{
+      background:transparent !important;
+      border-bottom:0 !important;
+      backdrop-filter:none !important;
+      -webkit-backdrop-filter:none !important;
+    }
+
+    header.fixed > div,
+    nav.fixed > div{
+      background:rgba(0,0,0,.58);
+      backdrop-filter:blur(18px);
+      -webkit-backdrop-filter:blur(18px);
+      border:1px solid rgba(255,255,255,.08);
+      box-shadow:0 18px 50px rgba(0,0,0,.28);
+      border-radius:999px;
+      padding:14px 18px;
+      margin-top:14px;
+    }
+
+    @media(max-width:768px){
+      header.fixed > div,
+      nav.fixed > div{
+        border-radius:24px;
+        margin:10px 12px 0;
+        padding:12px 14px;
+      }
+    }
+
+</style>
+</head>
+<body>
+  <div class="marquee" aria-hidden="true">
+    <div class="marquee-track">
+      <span>Branding • Identidade Visual • Social Media • Design Estratégico • Portfolio •</span>
+      <span>Branding • Identidade Visual • Social Media • Design Estratégico • Portfolio •</span>
+      <span>Branding • Identidade Visual • Social Media • Design Estratégico • Portfolio •</span>
+      <span>Branding • Identidade Visual • Social Media • Design Estratégico • Portfolio •</span>
+    </div>
   </div>
 
-  <nav class="sticky top-0 z-50 px-4 py-4 glass w-full">
-   <div class="max-w-7xl mx-auto flex justify-center">
-    <div class="flex flex-row flex-wrap justify-center gap-6 md:gap-12 text-[10px] uppercase tracking-[0.3em] text-white/70 md:text-white/40 font-bold">
-     <a href="#about" class="hover:text-green-400 transition-all py-1">Sobre</a>
-     <a href="#services" class="hover:text-green-400 transition-all py-1">Serviços</a>
-     <a href="#projects" class="hover:text-green-400 transition-all py-1">Projetos</a>
-     <a href="#contact" class="hover:text-green-400 transition-all py-1">Contato</a>
-    </div>
-   </div>
-  </nav>
-
-  <section id="about" class="relative min-h-[85vh] flex items-center px-6 md:px-16 py-8 lg:py-16 overflow-hidden">
-   <div class="max-w-7xl mx-auto flex flex-col-reverse lg:grid lg:grid-cols-2 gap-10 lg:gap-20 items-center relative z-10 w-full">
-    
-    <div class="fade-in d2 text-center lg:text-left w-full">
-     <p class="text-green-500 text-xs font-black uppercase tracking-[0.5em] mb-6">Creative Designer</p>
-     <h1 class="hero-title green-glow mb-8 uppercase">Criando o <br>futuro das <br>marcas.</h1>
-     <p class="text-white/40 text-lg lg:text-xl max-w-lg mx-auto lg:mx-0 leading-relaxed mb-10">Focado em transformar conceitos em experiências visuais de alto impacto.</p>
-     
-     <div class="flex flex-col sm:flex-row gap-5 justify-center lg:justify-start">
-      <a href="https://wa.me/?text=Olá%20João!" target="_blank" class="btn-pulse group flex items-center justify-center gap-3 px-10 py-6 bg-green-600 hover:bg-green-500 rounded-full font-black text-xs transition-all uppercase tracking-widest text-center transform hover:-translate-y-1">
-        <i data-lucide="message-circle" class="w-5 h-5 group-hover:rotate-12 transition-transform"></i>
-        Solicitar Orçamento
+  <header class="top-3 z-50 px-3 fixed top-0 left-0 right-0 z-[999]">
+    <nav class="container-site glass rounded-full px-4 py-3 flex items-center justify-between gap-4">
+      <a href="#about" class="flex items-center gap-3 font-black uppercase tracking-[-.04em] text-lg" aria-label="Ir para o início">
+        <span class="grid size-9 place-items-center rounded-full bg-green-500 text-black">J</span>
+        <span class="hidden sm:inline">João Emanuel</span>
       </a>
-      <a href="#projects" class="group flex items-center justify-center gap-3 px-10 py-6 border border-white/10 bg-white/5 hover:bg-white/10 rounded-full font-black text-xs transition-all uppercase tracking-widest text-center backdrop-blur-sm transform hover:-translate-y-1">
-        <i data-lucide="external-link" class="w-4 h-4 text-green-400"></i>
-        Explorar Projetos
-      </a>
-     </div>
-    </div>
-    
-    <div class="fade-in d3 flex justify-center w-full mb-4 lg:mb-0">
-     <div class="relative group w-full max-w-[290px] lg:max-w-[400px]">
-      <div class="absolute inset-0 bg-green-500 rounded-[80px] blur-[120px] opacity-20 group-hover:opacity-30 transition-opacity"></div>
-      <div class="relative w-full aspect-[4/5] rounded-[40px] lg:rounded-[60px] overflow-hidden border border-white/10 bg-white/5 p-3 lg:p-4 backdrop-blur-xl rotate-1 group-hover:rotate-0 transition-transform">
-       <img class="w-full h-full object-cover rounded-[30px] lg:rounded-[45px]" src="perfil.jpg" alt="João Emanuel">
+
+      <div class="nav-links flex items-center justify-center gap-5 md:gap-9 text-[10px] md:text-xs uppercase tracking-[.24em] text-white/55 font-black">
+        <a href="#services" class="hover:text-green-400 transition-colors">Serviços</a>
+        <a href="#projects" class="hover:text-green-400 transition-colors">Projetos</a>
+        <a href="#contact" class="hover:text-green-400 transition-colors">Contato</a>
       </div>
-     </div>
-    </div>
+    </nav>
+  </header>
 
-   </div>
-  </section>
+  <main>
+    <section id="about" class="container-site min-h-[88vh] grid lg:grid-cols-[1.08fr_.92fr] items-center gap-12 pt-12 pb-16 md:pt-20">
+      <div class="reveal">
+        <span class="eyebrow mb-7">Designer Gráfico</span>
+        <h1 class="hero-title mb-7">
+          Sua marca pode<br>
+          parecer maior.
+        </h1>
+        <p class="max-w-xl text-lg md:text-xl leading-relaxed text-white/58 mb-9">
+          Focado em transformar conceitos em experiências visuais de alto impacto.
+        </p>
 
-  <section id="services" class="px-6 py-12 md:py-20 relative">
-   <div class="max-w-7xl mx-auto">
-    <div class="flex flex-col md:flex-row justify-between items-end mb-12 md:mb-16 gap-8">
-        <div class="max-w-2xl text-center md:text-left w-full">
-            <h2 class="text-4xl lg:text-5xl font-black mb-4 uppercase tracking-tighter green-glow">Soluções Visuais</h2>
-            <p class="text-white/30 text-lg">Estratégia e criatividade unidas para criar autoridade digital.</p>
+        <div class="flex flex-col sm:flex-row gap-4 mb-10">
+          <a href="https://wa.me/5562991381761?text=Ol%C3%A1%2C%20Jo%C3%A3o!%20Vim%20pelo%20seu%20site%20e%20quero%20fazer%20um%20or%C3%A7amento." target="_blank" rel="noopener" class="btn-main px-8">
+            <i data-lucide="message-circle" class="size-5"></i>
+            Pedir orçamento
+          </a>
+          <a href="#projects" class="btn-second px-8">
+            <i data-lucide="eye" class="size-5 text-green-400"></i>
+            Ver projetos
+          </a>
         </div>
-        <div class="h-px flex-1 bg-white/10 mb-6 mx-10 hidden md:block"></div>
-    </div>
-    <div class="grid grid-cols-1 md:grid-cols-3 gap-6 md:gap-8">
-     <div class="card-premium p-8 lg:p-12 rounded-[40px] lg:rounded-[50px]">
-      <i data-lucide="zap" class="text-green-400 mb-8" size="40"></i>
-      <h3 class="text-2xl font-bold mb-6 uppercase tracking-tighter text-white">Identidade Visual</h3>
-      <p class="text-white/40 leading-relaxed">Desenvolvimento de marcas autênticas que garantem unidade em todos os pontos de contato.</p>
-     </div>
-     <div class="card-premium p-8 lg:p-12 rounded-[40px] lg:rounded-[50px]">
-      <i data-lucide="layout-grid" class="text-green-400 mb-8" size="40"></i>
-      <h3 class="text-2xl font-bold mb-6 uppercase tracking-tighter text-white">Social Media</h3>
-      <p class="text-white/40 leading-relaxed">Criação de conteúdo visual estratégico que posiciona seu perfil como uma referência estética.</p>
-     </div>
-     <div class="card-premium p-8 lg:p-12 rounded-[40px] lg:rounded-[50px]">
-      <i data-lucide="crown" class="text-green-400 mb-8" size="40"></i>
-      <h3 class="text-2xl font-bold mb-6 uppercase tracking-tighter text-white">Branding</h3>
-      <p class="text-white/40 leading-relaxed">Consultoria visual completa para transformar a forma como as pessoas percebem seu valor.</p>
-     </div>
-    </div>
-   </div>
-  </section>
 
-  <section id="projects" class="px-6 py-12 md:py-20">
-   <div class="max-w-7xl mx-auto">
-    <h2 class="text-center text-4xl font-black mb-12 md:mb-16 green-glow uppercase tracking-tighter">Trabalhos em Destaque</h2>
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-10 md:gap-16">
-     <a href="https://www.behance.net/gallery/232619649/Chamego-Identidade-Visual" target="_blank" class="group block">
-      <div class="relative aspect-[16/10] rounded-[40px] lg:rounded-[60px] overflow-hidden border border-white/5 mb-6 bg-white/5">
-        <img src="projeto2.jpg" class="w-full h-full object-cover grayscale-[50%] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" alt="Projeto 1">
-      </div>
-      <div class="px-4">
-       <span class="text-green-400 text-xs font-black uppercase tracking-[0.4em] mb-3 block">Branding / Identidade Visual</span>
-       <h3 class="text-2xl lg:text-3xl font-black uppercase group-hover:text-green-400 transition-colors">Chamego - Branding</h3>
-      </div>
-     </a>
-     <a href="https://www.behance.net/gallery/229654613/Posts-para-Social-Media-Clinica-Mdica" target="_blank" class="group block">
-      <div class="relative aspect-[16/10] rounded-[40px] lg:rounded-[60px] overflow-hidden border border-white/5 mb-6 bg-white/5">
-        <img src="projeto1.jpg" class="w-full h-full object-cover grayscale-[50%] group-hover:grayscale-0 transition-all duration-700 group-hover:scale-105" alt="Projeto 2">
-      </div>
-      <div class="px-4">
-       <span class="text-green-400 text-xs font-black uppercase tracking-[0.4em] mb-3 block">Social Media / Posts</span>
-       <h3 class="text-2xl lg:text-3xl font-black uppercase group-hover:text-green-400 transition-colors">Clínica Médica - Posts</h3>
-      </div>
-     </a>
-    </div>
-   </div>
-  </section>
-
-  <section class="px-6 py-12 md:py-20 relative">
-    <div class="max-w-4xl mx-auto">
-        <h2 class="text-3xl font-black mb-10 md:mb-12 uppercase tracking-tighter green-glow text-center">Perguntas Frequentes</h2>
-        <div class="space-y-4">
-            <div class="faq-item p-6">
-                <h5 class="font-bold text-lg mb-2 uppercase tracking-tight text-white">Qual o prazo de entrega?</h5>
-                <p class="text-white/30 text-sm">Depende do projeto. Identidades visuais levam de 10 a 15 dias úteis.</p>
-            </div>
-            <div class="faq-item p-6">
-                <h5 class="font-bold text-lg mb-2 uppercase tracking-tight text-white">Como funciona o pagamento?</h5>
-                <p class="text-white/30 text-sm">50% de entrada e 50% após a aprovação final.</p>
-            </div>
-            <div class="faq-item p-6">
-                <h5 class="font-bold text-lg mb-2 uppercase tracking-tight text-white">Posso pedir alterações?</h5>
-                <p class="text-white/30 text-sm">Sim, cada projeto inclui rodadas de ajustes para garantir sua satisfação.</p>
-            </div>
+        <div class="grid grid-cols-3 gap-3 max-w-xl">
+          <div class="glass rounded-3xl p-4">
+            <strong class="block text-2xl md:text-3xl font-black">IDV</strong>
+            <span class="text-xs text-white/45 uppercase tracking-widest">Marcas</span>
+          </div>
+          <div class="glass rounded-3xl p-4">
+            <strong class="block text-2xl md:text-3xl font-black">Posts</strong>
+            <span class="text-xs text-white/45 uppercase tracking-widest">Social</span>
+          </div>
+          <div class="glass rounded-3xl p-4">
+            <strong class="block text-2xl md:text-3xl font-black">Brand</strong>
+            <span class="text-xs text-white/45 uppercase tracking-widest">Valor</span>
+          </div>
         </div>
-    </div>
-  </section>
+      </div>
 
-  <section id="contact" class="px-6 md:px-16 py-12 md:py-16 relative">
-    <div class="glow-sphere bottom-0 left-[50%] -translate-x-1/2 w-[300px] md:w-[1200px] h-[300px] md:h-[600px] bg-green-600 opacity-15 blur-[150px]"></div>
-    
-    <div class="max-w-5xl mx-auto grid grid-cols-1 sm:grid-cols-2 gap-6 md:gap-8 relative z-10">
-        <a href="https://www.instagram.com/eujoaodsgn/" target="_blank" class="group glass rounded-[30px] lg:rounded-[40px] p-8 lg:p-10 flex items-center justify-between transition-all hover:border-green-500/50 hover:bg-green-600/5">
-            <div class="text-left">
-                <span class="text-green-400 text-xs font-black uppercase tracking-widest">Me siga</span>
-                <h4 class="text-2xl font-bold text-white uppercase tracking-tighter mt-1">Instagram</h4>
-            </div>
-            <i data-lucide="instagram" class="text-white/20 group-hover:text-green-400 group-hover:rotate-12 transition-all" size="40"></i>
-        </a>
-        <a href="mailto:designergraficojoaoemanuel@gmail.com" class="group glass rounded-[30px] lg:rounded-[40px] p-8 lg:p-10 flex items-center justify-between transition-all hover:border-green-500/50 hover:bg-green-600/5">
-            <div class="text-left">
-                <span class="text-green-400 text-xs font-black uppercase tracking-widest">Mande um e-mail</span>
-                <h4 class="text-2xl font-bold text-white uppercase tracking-tighter mt-1">Contato</h4>
-            </div>
-            <i data-lucide="mail" class="text-white/20 group-hover:text-green-400 group-hover:-rotate-12 transition-all" size="40"></i>
-        </a>
-    </div>
-  </section>
+      <div class="profile-card reveal delay-2 mx-auto w-full max-w-[390px] lg:max-w-[455px]">
+        <div class="rounded-[2.2rem] md:rounded-[3.2rem] border border-white/10 bg-white/[.045] p-3 shadow-2xl rotate-1 transition-transform duration-500 hover:rotate-0">
+          <img src="perfil.jpg" alt="Foto de João Emanuel" class="h-[520px] max-h-[72vh] w-full rounded-[1.7rem] md:rounded-[2.55rem] object-cover" loading="eager">
+        </div>
+        <div class="glass absolute -bottom-5 left-3 right-3 rounded-3xl p-4 flex items-center justify-between gap-4">
+          <div>
+            <p class="text-sm font-black uppercase tracking-tight">Aberto para projetos</p>
+            <p class="text-xs text-white/45">Identidade visual, social media e Designer-Developer</p>
+          </div>
+          <span class="size-3 rounded-full bg-green-400 shadow-[0_0_24px_rgba(34,197,94,.95)]"></span>
+        </div>
+      </div>
+    </section>
 
-  <footer class="py-10 px-6 border-t border-white/20 bg-black/40 backdrop-blur-md text-center relative z-10 w-full">
-   <p class="text-[10px] md:text-xs text-white/50 uppercase tracking-[0.4em] md:tracking-[0.8em] font-bold mx-auto max-w-full block break-words">
-     João Emanuel • Designer Gráfico © 2026
-   </p>
+    <section id="services" class="section-pad">
+      <div class="container-site">
+        <div class="grid lg:grid-cols-[.82fr_1.18fr] gap-10 items-end mb-12">
+          <div>
+            <span class="eyebrow mb-5">O que eu faço</span>
+            <h2 class="section-title">O visual da sua marca fala antes.</h2>
+          </div>
+          <p class="text-white/50 text-lg leading-relaxed max-w-2xl lg:ml-auto">
+            Hoje todo mundo olha e decide rápido, e se o visual da sua marca não passa confiança, nada adianta!
+          </p>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-5 md:gap-6">
+          <article class="service-card rounded-[2rem] p-7 md:p-8">
+            <div class="mb-8 grid size-12 place-items-center rounded-2xl bg-green-500/10 text-green-400">
+              <i data-lucide="badge-check" class="size-6"></i>
+            </div>
+            <h3 class="text-2xl font-black uppercase tracking-[-.04em] mb-4">Identidade Visual</h3>
+            <p class="text-white/48 leading-relaxed">Identidade visual completa. Logo, cores, tipografia e direção visual alinhada de verdade.</p>
+          </article>
+
+          <article class="service-card rounded-[2rem] p-7 md:p-8">
+            <div class="mb-8 grid size-12 place-items-center rounded-2xl bg-green-500/10 text-green-400">
+              <i data-lucide="layout-template" class="size-6"></i>
+            </div>
+            <h3 class="text-2xl font-black uppercase tracking-[-.04em] mb-4">Social Media</h3>
+            <p class="text-white/48 leading-relaxed">Posts e carrosséis organizados, modernos e profissionais.</p>
+          </article>
+
+          <article class="service-card rounded-[2rem] p-7 md:p-8">
+            <div class="mb-8 grid size-12 place-items-center rounded-2xl bg-green-500/10 text-green-400">
+              <i data-lucide="sparkles" class="size-6"></i>
+            </div>
+            <h3 class="text-2xl font-black uppercase tracking-[-.04em] mb-4">Direção de Marca</h3>
+            <p class="text-white/48 leading-relaxed">Ajustes visuais e direção criativa pra deixar sua marca mais sólida e profissional.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section id="projects" class="section-pad pt-0">
+      <div class="container-site">
+        <div class="flex flex-col md:flex-row md:items-end md:justify-between gap-6 mb-12">
+          <div>
+            <span class="eyebrow mb-5">Portfólio</span>
+            <h2 class="section-title">Alguns dos meus projetos.</h2>
+          </div>
+          <a href="https://www.behance.net/joaoemanueldesigner" target="_blank" rel="noopener" class="btn-second px-7 w-fit">
+            <i data-lucide="external-link" class="size-5 text-green-400"></i>
+            Ver Behance
+          </a>
+        </div>
+
+        <div class="grid md:grid-cols-2 gap-6 md:gap-8">
+          <a href="https://www.behance.net/gallery/232619649/Chamego-Identidade-Visual" target="_blank" rel="noopener" class="project-card group rounded-[2.2rem] p-3 block">
+            <div class="overflow-hidden rounded-[1.65rem] bg-white/5 aspect-[16/10]">
+              <img src="projeto2.jpg" class="project-img h-full w-full object-cover" alt="Projeto Chamego - Identidade Visual" loading="lazy">
+            </div>
+            <div class="p-5 md:p-6">
+              <span class="text-green-400 text-xs font-black uppercase tracking-[.28em]">Branding / Identidade Visual</span>
+              <h3 class="mt-3 text-2xl md:text-3xl font-black uppercase tracking-[-.05em]">Chamego</h3>
+              <p class="mt-3 text-white/45">Identidade visual criada pra deixar a marca mais forte, organizada e reconhecível.</p>
+            </div>
+          </a>
+
+          <a href="https://www.behance.net/gallery/229654613/Posts-para-Social-Media-Clinica-Mdica" target="_blank" rel="noopener" class="project-card group rounded-[2.2rem] p-3 block">
+            <div class="overflow-hidden rounded-[1.65rem] bg-white/5 aspect-[16/10]">
+              <img src="projeto1.jpg" class="project-img h-full w-full object-cover" alt="Projeto Clínica Médica - Social Media" loading="lazy">
+            </div>
+            <div class="p-5 md:p-6">
+              <span class="text-green-400 text-xs font-black uppercase tracking-[.28em]">Social Media / Posts</span>
+              <h3 class="mt-3 text-2xl md:text-3xl font-black uppercase tracking-[-.05em]">Clínica Médica</h3>
+              <p class="mt-3 text-white/45">Posts pensados pra passar mais confiança e deixar a comunicação mais profissional.</p>
+            </div>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad pt-0">
+      <div class="container-site grid lg:grid-cols-[.75fr_1.25fr] gap-10">
+        <div>
+          <span class="eyebrow mb-5">Processo</span>
+          <h2 class="section-title">Como funciona.</h2>
+        </div>
+
+        <div class="grid gap-4">
+          <div class="glass rounded-[1.7rem] p-6 flex gap-5">
+            <span class="text-green-400 font-black text-xl">01</span>
+            <div>
+              <h3 class="font-black uppercase tracking-tight text-xl mb-2">Briefing direto</h3>
+              <p class="text-white/48">Entendo o que sua marca vende, pra quem fala e qual imagem precisa passar.</p>
+            </div>
+          </div>
+          <div class="glass rounded-[1.7rem] p-6 flex gap-5">
+            <span class="text-green-400 font-black text-xl">02</span>
+            <div>
+              <h3 class="font-black uppercase tracking-tight text-xl mb-2">Criação visual</h3>
+              <p class="text-white/48">Monto a direção, testo composição e entrego peças com unidade. Nada jogado.</p>
+            </div>
+          </div>
+          <div class="glass rounded-[1.7rem] p-6 flex gap-5">
+            <span class="text-green-400 font-black text-xl">03</span>
+            <div>
+              <h3 class="font-black uppercase tracking-tight text-xl mb-2">Ajuste e entrega</h3>
+              <p class="text-white/48">Você aprova, ajustamos o que precisar e recebe os arquivos prontos pra usar.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section-pad pt-0">
+      <div class="container-site glass rounded-[2.4rem] md:rounded-[3.2rem] p-7 md:p-12">
+        <div class="grid lg:grid-cols-[1fr_1.2fr] gap-10 items-start">
+          <div>
+            <span class="eyebrow mb-5">Perguntas frequentes</span>
+            <h2 class="text-4xl md:text-5xl font-black uppercase tracking-[-.06em] leading-none">Antes de chamar no WhatsApp.</h2>
+          </div>
+
+          <div class="divide-y divide-white/10">
+            <details class="group py-5" open>
+              <summary class="cursor-pointer list-none flex items-center justify-between gap-4 font-black text-lg uppercase tracking-tight">
+                Qual o prazo de entrega?
+                <i data-lucide="chevron-down" class="size-5 text-green-400 transition-transform group-open:rotate-180"></i>
+              </summary>
+              <p class="pt-3 text-white/48 leading-relaxed">Depende do projeto. Identidade visual costuma levar de 10 a 15 dias úteis. Posts e pacotes de artes variam pela quantidade.</p>
+            </details>
+            <details class="group py-5">
+              <summary class="cursor-pointer list-none flex items-center justify-between gap-4 font-black text-lg uppercase tracking-tight">
+                Como funciona o pagamento?
+                <i data-lucide="chevron-down" class="size-5 text-green-400 transition-transform group-open:rotate-180"></i>
+              </summary>
+              <p class="pt-3 text-white/48 leading-relaxed">Normalmente 50% para iniciar e 50% na aprovação final. Simples, sem novela.</p>
+            </details>
+            <details class="group py-5">
+              <summary class="cursor-pointer list-none flex items-center justify-between gap-4 font-black text-lg uppercase tracking-tight">
+                Posso pedir alterações?
+                <i data-lucide="chevron-down" class="size-5 text-green-400 transition-transform group-open:rotate-180"></i>
+              </summary>
+              <p class="pt-3 text-white/48 leading-relaxed">Pode. O projeto inclui rodadas de ajuste combinadas antes. O pulo do gato é alinhar bem o briefing logo no começo.</p>
+            </details>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="contact" class="section-pad pt-0">
+      <div class="container-site">
+        <div class="rounded-[2.4rem] md:rounded-[3.3rem] border border-green-400/20 bg-green-500/[.06] p-7 md:p-12 text-center relative overflow-hidden">
+          <div class="absolute inset-x-0 -top-32 mx-auto h-64 w-64 rounded-full bg-green-500/20 blur-3xl"></div>
+          <div class="relative z-10 max-w-3xl mx-auto">
+            <span class="eyebrow mb-5">Bora tirar do papel?</span>
+            <h2 class="section-title mb-6">Sua marca não precisa parecer pequena.</h2>
+            <p class="text-white/55 text-lg md:text-xl leading-relaxed mb-8"><span style="font-size:0.92rem; line-height:1.5; opacity:.72; display:block;">Me explica o que você precisa e eu te mostro o melhor caminho!</span></p>
+            <div class="flex flex-col sm:flex-row justify-center gap-4">
+              <a href="https://wa.me/5562991381761?text=Ol%C3%A1%2C%20Jo%C3%A3o!%20Vim%20pelo%20seu%20site%20e%20quero%20fazer%20um%20or%C3%A7amento." target="_blank" rel="noopener" class="btn-main px-8">
+                <i data-lucide="message-circle" class="size-5"></i>
+                Chamar no WhatsApp
+              </a>
+              <a href="mailto:designergraficojoaoemanuel@gmail.com" class="btn-second px-8">
+                <i data-lucide="mail" class="size-5 text-green-400"></i>
+                Enviar e-mail
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <div class="grid sm:grid-cols-2 gap-5 mt-6">
+          <a href="https://www.instagram.com/eujoaodsgn/" target="_blank" rel="noopener" class="contact-card rounded-[1.8rem] p-6 flex items-center justify-between">
+            <div>
+              <span class="text-green-400 text-xs font-black uppercase tracking-widest">Me acompanha</span>
+              <h3 class="text-2xl font-black uppercase tracking-[-.04em] mt-1">Instagram</h3>
+            </div>
+            <i data-lucide="instagram" class="size-9 text-white/28"></i>
+          </a>
+          <a href="https://www.behance.net/joaoemanueldesigner" target="_blank" rel="noopener" class="contact-card rounded-[1.8rem] p-6 flex items-center justify-between">
+            <div>
+              <span class="text-green-400 text-xs font-black uppercase tracking-widest">Projetos completos</span>
+              <h3 class="text-2xl font-black uppercase tracking-[-.04em] mt-1">Behance</h3>
+            </div>
+            <i data-lucide="folder-open" class="size-9 text-white/28"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="border-t border-white/10 py-8 text-center">
+    <p class="px-4 text-[10px] md:text-xs text-white/42 uppercase tracking-[.34em] font-black">
+      João Emanuel • Designer Gráfico © 2026
+    </p>
   </footer>
 
-  <script>lucide.createIcons();</script>
+  <script>
+    lucide.createIcons();
+  </script>
 </body>
 </html>
