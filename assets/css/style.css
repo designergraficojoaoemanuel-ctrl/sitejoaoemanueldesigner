@@ -16,11 +16,29 @@
     --ease: cubic-bezier(0.16, 1, 0.3, 1);
     --shadow-flat: 4px 4px 0px rgba(22, 29, 27, 0.07);
     --shadow-lift: 6px 6px 0px rgba(22, 29, 27, 0.1);
+    --theme-transition: background-color 0.5s var(--ease), color 0.4s var(--ease), border-color 0.4s var(--ease), box-shadow 0.4s var(--ease);
+  }
+
+  /* ================= Tema escuro ================= */
+  html[data-theme="dark"]{
+    --bg: #0D1312;
+    --bg-card: #161F1D;
+    --accent: #2FD9A8;
+    --accent-bright: #3DF2BE;
+    --gold: #F4C430;
+    --gold-soft: rgba(244, 196, 48, 0.1);
+    --text: #F2F1EA;
+    --text-dim: #B7C1BC;
+    --text-faint: #808C87;
+    --border: rgba(255, 255, 255, 0.08);
+    --border-dashed: rgba(255, 255, 255, 0.14);
+    --shadow-flat: 4px 4px 0px rgba(0, 0, 0, 0.35);
+    --shadow-lift: 6px 6px 0px rgba(0, 0, 0, 0.45);
   }
 
   *{ margin:0; padding:0; box-sizing:border-box; }
 
-  html{ background:var(--bg); scroll-behavior:smooth; }
+  html{ background:var(--bg); scroll-behavior:smooth; transition: var(--theme-transition); }
 
   body{
     background-color: var(--bg);
@@ -35,6 +53,7 @@
     position:relative;
     overflow-x:hidden;
     -webkit-font-smoothing:antialiased;
+    transition: var(--theme-transition);
   }
 
   /* ================= Collage Background Texture ================= */
@@ -57,6 +76,13 @@
     mask-image: radial-gradient(circle 800px at 50% 10%, black, transparent 85%);
     -webkit-mask-image: radial-gradient(circle 800px at 50% 10%, black, transparent 85%);
     opacity:0.8;
+    transition: opacity 0.5s var(--ease);
+  }
+
+  html[data-theme="dark"] .ambient::before{
+    background-image:
+      linear-gradient(rgba(255,255,255,0.025) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(255,255,255,0.025) 1px, transparent 1px);
   }
 
   .ambient::after{
@@ -365,6 +391,8 @@
     transition: color 0.3s var(--ease), transform 0.3s var(--ease), background 0.3s var(--ease);
   }
 
+  html[data-theme="dark"] .link-icon{ background: rgba(255, 255, 255, 0.05); }
+
   .link:hover .link-icon{
     color:var(--accent);
     transform: scale(1.04);
@@ -468,6 +496,17 @@
     color: var(--text);
   }
 
+  /* O CTA do WhatsApp mantém fundo dourado nos dois temas, então o texto
+     precisa continuar escuro mesmo quando --text vira claro no modo escuro */
+  html[data-theme="dark"] .link--whatsapp,
+  html[data-theme="dark"] .link--whatsapp .link-desc,
+  html[data-theme="dark"] .link--whatsapp .link-arrow{
+    color: #161D1B;
+  }
+  html[data-theme="dark"] .link--whatsapp:hover .link-icon{
+    color: #013A37;
+  }
+
   /* ================= Prova Social (Seção 3) ================= */
   .stats{
     width:100%;
@@ -560,6 +599,12 @@
     border-right: 1px dashed rgba(22,29,27,0.1);
     pointer-events: none;
     transition: transform 0.4s var(--ease), background 0.4s var(--ease);
+  }
+
+  html[data-theme="dark"] .about::before{
+    background: rgba(255, 255, 255, 0.06);
+    border-left-color: rgba(255,255,255,0.12);
+    border-right-color: rgba(255,255,255,0.12);
   }
 
   .about:hover::before{
@@ -916,6 +961,8 @@
   transition: color 0.3s var(--ease), background 0.3s var(--ease), border-color 0.3s var(--ease);
 }
 
+html[data-theme="dark"] .option-icon{ background: rgba(255,255,255,0.05); }
+
 .option-card:hover .option-icon{
   color: var(--accent);
   background: var(--gold-soft);
@@ -930,3 +977,95 @@
 
 .option-card--instagram .option-icon{ color:#C1327A; }
 .option-card--instagram:hover .option-icon{ color:#C1327A; background: rgba(193,50,122,0.08); border-color: rgba(193,50,122,0.25); }
+
+/* ================= Botão de alternância de tema ================= */
+.theme-toggle{
+  position: fixed;
+  top: max(16px, env(safe-area-inset-top));
+  right: max(16px, env(safe-area-inset-right));
+  z-index: 100;
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: var(--bg-card);
+  border: 1px solid var(--border);
+  color: var(--text);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  box-shadow: var(--shadow-flat);
+  -webkit-tap-highlight-color: transparent;
+  transition: transform 0.3s var(--ease), box-shadow 0.3s var(--ease), border-color 0.3s var(--ease), background-color 0.3s var(--ease);
+}
+
+.theme-toggle:hover{
+  transform: translateY(-2px) scale(1.05);
+  box-shadow: var(--shadow-lift);
+  border-color: var(--text);
+}
+
+.theme-toggle:active{ transform: scale(0.9) !important; }
+
+.theme-toggle:focus-visible{
+  outline: 2px solid var(--accent);
+  outline-offset: 2px;
+}
+
+.theme-toggle .icon-wrap{
+  position: relative;
+  width: 20px;
+  height: 20px;
+}
+
+.theme-toggle svg{
+  position: absolute;
+  inset: 0;
+  width: 20px;
+  height: 20px;
+  transition: transform 0.55s var(--ease), opacity 0.4s var(--ease);
+}
+
+.theme-toggle .icon-moon{
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+.theme-toggle .icon-sun{
+  opacity: 0;
+  transform: rotate(-90deg) scale(0.4);
+}
+
+html[data-theme="dark"] .theme-toggle .icon-moon{
+  opacity: 0;
+  transform: rotate(90deg) scale(0.4);
+}
+
+html[data-theme="dark"] .theme-toggle .icon-sun{
+  opacity: 1;
+  transform: rotate(0deg) scale(1);
+}
+
+/* Giro extra do botão a cada clique, por cima do cross-fade dos ícones */
+@keyframes theme-toggle-spin{
+  from{ transform: rotate(0deg); }
+  to{ transform: rotate(180deg); }
+}
+
+.theme-toggle.is-spinning{
+  animation: theme-toggle-spin 0.5s var(--ease);
+}
+
+/* ---------- Efeito de revelação circular na troca de tema ---------- */
+::view-transition-old(root),
+::view-transition-new(root){
+  animation: none;
+  mix-blend-mode: normal;
+}
+
+::view-transition-old(root){ z-index: 1; }
+::view-transition-new(root){ z-index: 2; }
+
+@media (prefers-reduced-motion: reduce){
+  .theme-toggle.is-spinning{ animation: none; }
+}

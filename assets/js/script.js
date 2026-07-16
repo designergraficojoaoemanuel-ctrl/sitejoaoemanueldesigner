@@ -1,4 +1,75 @@
 (function(){
+  /* ---------- alternância de tema claro/escuro ---------- */
+  var root = document.documentElement;
+  var toggleBtn = document.getElementById('themeToggle');
+  var reduceMotionForTheme = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function currentTheme(){
+    return root.getAttribute('data-theme') === 'dark' ? 'dark' : 'light';
+  }
+
+  function updateMetaThemeColor(theme){
+    var meta = document.querySelector('meta[name="theme-color"]');
+    if (meta) meta.setAttribute('content', theme === 'dark' ? '#0D1312' : '#FAF9F5');
+  }
+
+  function commitTheme(theme){
+    root.setAttribute('data-theme', theme);
+    root.style.colorScheme = theme;
+    try { localStorage.setItem('theme', theme); } catch (e) {}
+    updateMetaThemeColor(theme);
+  }
+
+  function switchTheme(theme, originX, originY){
+    // Navegadores com View Transition API ganham uma revelação circular
+    // a partir do botão; os demais recebem a troca com transição suave de cores (via CSS).
+    if (!reduceMotionForTheme && document.startViewTransition){
+      var x = originX != null ? originX : window.innerWidth - 32;
+      var y = originY != null ? originY : 32;
+      var endRadius = Math.hypot(
+        Math.max(x, window.innerWidth - x),
+        Math.max(y, window.innerHeight - y)
+      );
+
+      var transition = document.startViewTransition(function(){ commitTheme(theme); });
+
+      transition.ready.then(function(){
+        document.documentElement.animate(
+          {
+            clipPath: [
+              'circle(0px at ' + x + 'px ' + y + 'px)',
+              'circle(' + endRadius + 'px at ' + x + 'px ' + y + 'px)'
+            ]
+          },
+          {
+            duration: 550,
+            easing: 'cubic-bezier(0.16, 1, 0.3, 1)',
+            pseudoElement: '::view-transition-new(root)'
+          }
+        );
+      }).catch(function(){ /* navegador cancelou, tema já foi aplicado */ });
+    } else {
+      commitTheme(theme);
+    }
+  }
+
+  if (toggleBtn){
+    toggleBtn.addEventListener('click', function(){
+      var rect = toggleBtn.getBoundingClientRect();
+      var x = rect.left + rect.width / 2;
+      var y = rect.top + rect.height / 2;
+      var next = currentTheme() === 'dark' ? 'light' : 'dark';
+
+      switchTheme(next, x, y);
+
+      toggleBtn.classList.remove('is-spinning');
+      void toggleBtn.offsetWidth; // força reflow para reiniciar a animação
+      toggleBtn.classList.add('is-spinning');
+    });
+  }
+
+  updateMetaThemeColor(currentTheme());
+
   var reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
   /* ---------- scroll reveal ---------- */
