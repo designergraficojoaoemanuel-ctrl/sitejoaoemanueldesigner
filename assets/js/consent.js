@@ -55,6 +55,38 @@
     loadMetaPixel();
   }
 
+  /* ---------------- Rastreamento de cliques (links, CTAs, portfólio) ---------------- */
+  function trackEvent(name, params) {
+    if (getConsent() !== 'granted') return;
+    if (window.gtag) window.gtag('event', name, params || {});
+    if (window.fbq) window.fbq('trackCustom', name, params || {});
+  }
+  window.trackEvent = trackEvent;
+
+  function initClickTracking() {
+    document.addEventListener('click', function (e) {
+      var el = e.target.closest('.link, .about-more, .option-card, .theme-toggle');
+      if (!el) return;
+
+      if (el.classList.contains('theme-toggle')) {
+        trackEvent('theme_toggle_click', {});
+        return;
+      }
+
+      var label =
+        el.querySelector('.link-label')?.textContent.trim() ||
+        el.textContent.trim().slice(0, 60) ||
+        el.getAttribute('aria-label') ||
+        'link';
+
+      trackEvent('link_click', {
+        link_label: label,
+        link_url: el.href || window.location.href,
+        page_path: window.location.pathname
+      });
+    }, true);
+  }
+
   /* ---------------- Banner de cookies ---------------- */
   function initBanner() {
     var banner = document.getElementById('cookieBanner');
@@ -109,8 +141,12 @@
   }
 
   if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initBanner);
+    document.addEventListener('DOMContentLoaded', function () {
+      initBanner();
+      initClickTracking();
+    });
   } else {
     initBanner();
+    initClickTracking();
   }
 })();
