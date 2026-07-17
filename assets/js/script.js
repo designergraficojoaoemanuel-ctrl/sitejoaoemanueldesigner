@@ -16,7 +16,14 @@
   function commitTheme(theme){
     root.setAttribute('data-theme', theme);
     root.style.colorScheme = theme;
-    try { localStorage.setItem('theme', theme); } catch (e) {}
+    // O tema só é lembrado entre visitas se o visitante permitiu
+    // cookies de preferências; do contrário, a troca vale só para a sessão atual.
+    var canPersist = !window.cookieConsent || window.cookieConsent.allows('preferences');
+    if (canPersist) {
+      try { localStorage.setItem('theme', theme); } catch (e) {}
+    } else {
+      try { localStorage.removeItem('theme'); } catch (e) {}
+    }
     updateMetaThemeColor(theme);
   }
 

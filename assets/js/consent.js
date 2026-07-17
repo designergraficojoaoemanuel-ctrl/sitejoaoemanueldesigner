@@ -1,18 +1,59 @@
+/* =======================================================================
+   CONSENTIMENTO DE COOKIES — João Emanuel Designer
+   =======================================================================
+   Gerencia o banner de consentimento, o modal de preferências por
+   categoria e o carregamento condicional de scripts de terceiros
+   (Google Analytics / Meta Pixel), em conformidade com a LGPD.
+
+   Categorias:
+     necessary   -> sempre ativos, essenciais ao funcionamento do site
+     preferences -> lembram escolhas do visitante (ex.: tema claro/escuro)
+     analytics   -> Google Analytics (estatísticas de uso, IP anonimizado)
+     marketing   -> Meta Pixel (hoje não configurado; pronto para o futuro)
+   ======================================================================= */
 (function () {
   'use strict';
 
-  var STORAGE_KEY = 'cookie_consent'; // 'granted' | 'denied'
+  var STORAGE_KEY = 'joaoemanuel_cookie_consent';
   var config = window.TRACKING_CONFIG || {};
 
-  function getConsent() {
-    try { return localStorage.getItem(STORAGE_KEY); } catch (e) { return null; }
+  var DEFAULTS = { necessary: true, preferences: true, analytics: true, marketing: true };
+
+  /* ---------------- Armazenamento ---------------- */
+  function readConsent() {
+    try {
+      var raw = localStorage.getItem(STORAGE_KEY);
+      if (!raw) return null;
+      var parsed = JSON.parse(raw);
+      if (!parsed || typeof parsed !== 'object') return null;
+      parsed.necessary = true;
+      return parsed;
+    } catch (e) {
+      return null;
+    }
   }
 
-  function setConsent(value) {
-    try { localStorage.setItem(STORAGE_KEY, value); } catch (e) {}
+  function saveConsent(prefs) {
+    var data = {
+      necessary: true,
+      preferences: !!prefs.preferences,
+      analytics: !!prefs.analytics,
+      marketing: !!prefs.marketing,
+      ts: new Date().toISOString()
+    };
+    try { localStorage.setItem(STORAGE_KEY, JSON.stringify(data)); } catch (e) {}
+    return data;
   }
 
-  /* ---------------- Google Analytics 4 ---------------- */
+  var currentConsent = readConsent();
+
+  function allows(category) {
+    if (category === 'necessary') return true;
+    if (!currentConsent) return false;
+    return !!currentConsent[category];
+  }
+
+  /* ---------------- Google Analytics 4 (categoria: analytics) ---------------- */
   function loadGA4() {
     if (!config.GA_MEASUREMENT_ID || window.__ga4Loaded) return;
     window.__ga4Loaded = true;
@@ -29,7 +70,7 @@
     gtag('config', config.GA_MEASUREMENT_ID, { anonymize_ip: true });
   }
 
-  /* ---------------- Meta Pixel ---------------- */
+  /* ---------------- Meta Pixel (categoria: marketing) ---------------- */
   function loadMetaPixel() {
     if (!config.META_PIXEL_ID || window.__metaPixelLoaded) return;
     window.__metaPixelLoaded = true;
@@ -50,16 +91,15 @@
     window.fbq('track', 'PageView');
   }
 
-  function enableTracking() {
-    loadGA4();
-    loadMetaPixel();
+  function applyConsent() {
+    if (allows('analytics')) loadGA4();
+    if (allows('marketing')) loadMetaPixel();
   }
 
-  /* ---------------- Rastreamento de cliques (links, CTAs, portfólio) ---------------- */
+  /* ---------------- Rastreamento de cliques (apenas com consentimento analítico) ---------------- */
   function trackEvent(name, params) {
-    if (getConsent() !== 'granted') return;
-    if (window.gtag) window.gtag('event', name, params || {});
-    if (window.fbq) window.fbq('trackCustom', name, params || {});
+    if (allows('analytics') && window.gtag) window.gtag('event', name, params || {});
+    if (allows('marketing') && window.fbq) window.fbq('trackCustom', name, params || {});
   }
   window.trackEvent = trackEvent;
 
@@ -87,55 +127,138 @@
     }, true);
   }
 
-  /* ---------------- Banner de cookies ---------------- */
-  function initBanner() {
-    var banner = document.getElementById('cookieBanner');
-    var manageBtn = document.getElementById('cookieManage');
-    var acceptBtn = document.getElementById('cookieAccept');
-    var declineBtn = document.getElementById('cookieDecline');
+  /* ---------------- API pública para outros scripts (ex.: tema) ---------------- */
+  window.cookieConsent = {
+    allows: allows,
+    get: function () { return currentConsent ? Object.assign({}, currentConsent) : null; },
+    openPreferences: function () { openModal(); }
+  };
+
+  /* ---------------- Elementos ---------------- */
+  var banner, modalOverlay, modal;
+  var toggles = {};
+
+  function q(id) { return document.getElementById(id); }
+
+  function showBanner() {
     if (!banner) return;
+    banner.classList.add('is-visible');
+  }
 
-    function showBanner() {
-      banner.classList.add('is-visible');
-      if (manageBtn) manageBtn.classList.remove('is-visible');
-    }
+  function hideBanner() {
+    if (!banner) return;
+    banner.classList.remove('is-visible');
+  }
 
-    function hideBanner() {
-      banner.classList.remove('is-visible');
-      if (manageBtn) manageBtn.classList.add('is-visible');
-    }
+  function syncToggles(prefs) {
+    ['preferences', 'analytics', 'marketing'].forEach(function (cat) {
+      if (toggles[cat]) toggles[cat].checked = !!prefs[cat];
+    });
+  }
 
-    var consent = getConsent();
+  function readToggles() {
+    return {
+      preferences: toggles.preferences ? toggles.preferences.checked : true,
+      analytics: toggles.analytics ? toggles.analytics.checked : true,
+      marketing: toggles.marketing ? toggles.marketing.checked : true
+    };
+  }
 
-    if (consent === 'granted') {
-      enableTracking();
-      hideBanner();
-    } else if (consent === 'denied') {
-      hideBanner();
+  function openModal() {
+    if (!modalOverlay) return;
+    var base = currentConsent || DEFAULTS;
+    syncToggles(base);
+    modalOverlay.classList.add('is-visible');
+    modalOverlay.setAttribute('aria-hidden', 'false');
+  }
+
+  function closeModal() {
+    if (!modalOverlay) return;
+    modalOverlay.classList.remove('is-visible');
+    modalOverlay.setAttribute('aria-hidden', 'true');
+  }
+
+  function commit(prefs) {
+    currentConsent = saveConsent(prefs);
+    applyConsent();
+    hideBanner();
+    closeModal();
+  }
+
+  function initBanner() {
+    banner = q('cookieConsentBanner');
+    modalOverlay = q('cookiePreferencesOverlay');
+    modal = q('cookiePreferencesModal');
+
+    toggles.preferences = q('cookieTogglePreferences');
+    toggles.analytics = q('cookieToggleAnalytics');
+    toggles.marketing = q('cookieToggleMarketing');
+
+    var acceptAllBtn = q('cookieAcceptAll');
+    var rejectOptionalBtn = q('cookieRejectOptional');
+    var customizeBtn = q('cookieCustomize');
+    var modalCloseBtn = q('cookieModalClose');
+    var modalSaveBtn = q('cookieModalSave');
+    var modalRejectBtn = q('cookieModalRejectAll');
+    var footerPrefsBtn = q('footerCookiePrefs');
+
+    if (currentConsent) {
+      applyConsent();
     } else {
-      // Primeira visita: mostra o banner após um pequeno delay
-      // para não competir com a animação de entrada da página.
       window.setTimeout(showBanner, 700);
     }
 
-    if (acceptBtn) {
-      acceptBtn.addEventListener('click', function () {
-        setConsent('granted');
-        enableTracking();
-        hideBanner();
+    if (acceptAllBtn) {
+      acceptAllBtn.addEventListener('click', function () {
+        commit({ preferences: true, analytics: true, marketing: true });
       });
     }
 
-    if (declineBtn) {
-      declineBtn.addEventListener('click', function () {
-        setConsent('denied');
-        hideBanner();
+    if (rejectOptionalBtn) {
+      rejectOptionalBtn.addEventListener('click', function () {
+        commit({ preferences: false, analytics: false, marketing: false });
       });
     }
 
-    if (manageBtn) {
-      manageBtn.addEventListener('click', function () {
-        showBanner();
+    if (customizeBtn) {
+      customizeBtn.addEventListener('click', function () {
+        openModal();
+      });
+    }
+
+    if (footerPrefsBtn) {
+      footerPrefsBtn.addEventListener('click', function () {
+        openModal();
+      });
+    }
+
+    if (modalCloseBtn) {
+      modalCloseBtn.addEventListener('click', function () {
+        closeModal();
+      });
+    }
+
+    if (modalOverlay) {
+      modalOverlay.addEventListener('click', function (e) {
+        if (e.target === modalOverlay) closeModal();
+      });
+    }
+
+    document.addEventListener('keydown', function (e) {
+      if (e.key === 'Escape' && modalOverlay && modalOverlay.classList.contains('is-visible')) {
+        closeModal();
+      }
+    });
+
+    if (modalSaveBtn) {
+      modalSaveBtn.addEventListener('click', function () {
+        commit(readToggles());
+      });
+    }
+
+    if (modalRejectBtn) {
+      modalRejectBtn.addEventListener('click', function () {
+        commit({ preferences: false, analytics: false, marketing: false });
       });
     }
   }
