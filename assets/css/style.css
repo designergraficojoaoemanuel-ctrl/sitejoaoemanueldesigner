@@ -461,6 +461,30 @@
   }
   .link--primary:hover .link-arrow{ color: #FFFFFF; }
 
+  /* No modo escuro, --accent vira um verde claro/neon — mantemos esse fundo
+     (mesmo padrão usado no card do WhatsApp) e só escurecemos o texto para
+     garantir contraste, em vez de trocar a cor de fundo. */
+  html[data-theme="dark"] .link--primary{
+    color: #0D1312;
+  }
+  html[data-theme="dark"] .link--primary .link-icon{
+    background: rgba(13, 19, 18, 0.1);
+    border-color: rgba(13, 19, 18, 0.14);
+    color: #0D1312;
+  }
+  html[data-theme="dark"] .link--primary .link-desc{ color: rgba(13, 19, 18, 0.7); }
+  html[data-theme="dark"] .link--primary .link-arrow{ color: rgba(13, 19, 18, 0.6); }
+
+  html[data-theme="dark"] .link--primary:hover{
+    background: var(--accent-bright);
+    border-color: var(--accent-bright);
+  }
+  html[data-theme="dark"] .link--primary:hover .link-icon{
+    color: #013A37;
+    background: rgba(13, 19, 18, 0.14);
+  }
+  html[data-theme="dark"] .link--primary:hover .link-arrow{ color: #0D1312; }
+
   /* Secondary CTA card: WhatsApp stylized highlighted button */
   .link--whatsapp {
     background: var(--gold);
@@ -500,7 +524,8 @@
      precisa continuar escuro mesmo quando --text vira claro no modo escuro */
   html[data-theme="dark"] .link--whatsapp,
   html[data-theme="dark"] .link--whatsapp .link-desc,
-  html[data-theme="dark"] .link--whatsapp .link-arrow{
+  html[data-theme="dark"] .link--whatsapp .link-arrow,
+  html[data-theme="dark"] .link--whatsapp .link-icon{
     color: #161D1B;
   }
   html[data-theme="dark"] .link--whatsapp:hover .link-icon{
